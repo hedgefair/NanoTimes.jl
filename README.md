@@ -32,9 +32,9 @@ This package does not know whether a conforming time server is present.  The tim
 | forms | access |
 |------|-----|
 | &nbsp; | &nbsp; |
-| Year .. Nanosecond | the componant itself |
+| Year .. Nanosecond | the component itself |
 | year .. nanosecond | the raw Int64 value above |
-| Years .. Nanoseconds | this and coarser componants in this form |
+| Years .. Nanoseconds | this and coarser components in this form |
 | years .. nanoseconds | the raw Int64 value above |
 
 - The Year[s], Quarter[s], Month[s] forms are used with Times
