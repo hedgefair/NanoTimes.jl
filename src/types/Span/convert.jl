@@ -30,7 +30,6 @@ function Span(day::I=zero(I),
     dnanosec += minute * NANOSECONDS_PER_MINUTE
     dnanosec += hour * NANOSECONDS_PER_HOUR
     dnanosec += day * NANOSECONDS_PER_DAY
-    dnanosec += week * NANOSECONDS_PER_WEEK
     return Span(dnanosec)
 end
 
