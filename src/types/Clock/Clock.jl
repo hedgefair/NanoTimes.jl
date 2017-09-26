@@ -13,3 +13,8 @@ function Clock(value::T) where T<:Base.Dates.AbstractTime
          throw(e)
      end
 end
+
+# use Clock{Int64} as the default Clock type
+
+Clock(x::T) where T = Clock{Int64}(x)
+Clock(x::T1, y::T2) where T2 where T1 = Clock{Int64}(x, y)
