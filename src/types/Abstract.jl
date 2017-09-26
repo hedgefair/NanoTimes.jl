@@ -25,7 +25,7 @@ abstract type AbstractMoment{T}      <: TemporalAbstraction end
 abstract type AbstractClock{T}       <: AbstractMoment{T} end  # date with timeofday
 abstract type AbstractDate{T,Z}      <: AbstractClock{T}  end  # date without timeofday
 abstract type AbstractTimeOfDay{T,Z} <: AbstractClock{T}  end  # timeofday without date
-[
+
 abstract type AbstractDuration{T}    <: TemporalAbstraction end
 
 abstract type AbstractTimePeriod{T}  <: AbstractDuration{T} end # years, days, seconds ..
