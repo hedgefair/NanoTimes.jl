@@ -1,9 +1,17 @@
+#=>
+    It is important that provide a shared abstraction 
+    used for all interoperable manner of typed times..
+    This has been `AbstractTime` in Base.Dates.
+
+    JuliaTime will release AbstractTimes.jl, a small
+    module from which to export a more refined type
+    and the few sub-abstractions deemed advantageous
+    for dispatch management and leaf type design.
+<=#    
+
 import Base.Dates.AbstractTime
 
-abstract type SpatioTemporal end
-
-abstract type Spatial  <: SpatioTemporal end
-abstract type Temporal <: SpatioTemporal end
+abstract type TemporalAbstraction <: Base.Dates.AbstractTime end
 
 #=>
     Type Parameters
@@ -12,31 +20,13 @@ abstract type Temporal <: SpatioTemporal end
     Z is locative as an operational relative frame for temporal reference
 <=#
 
-abstract type AbstractMoment{T}    <: Temporal end
-abstract type AbstractDuration{T}  <: Temporal end
+abstract type AbstractMoment{T}      <: TemporalAbstraction end
+abstract type AbstractDuration{T}    <: TemporalAbstraction end
 
-#=>
-    Simple Supertypes
+abstract type AbstractClock{T}       <: AbstractMoment{T} end  # date with timeofday
+abstract type AbstractDate{T,Z}      <: AbstractClock{T}  end  # date without timeofday
+abstract type AbstractTimeOfDay{T,Z} <: AbstractClock{T}  end  # timeofday without date
 
-    These types are free of determinative location and live as proleptic Gregorians
-<=#
-
-abstract type AbstractClock{T}     <: AbstractMoment{T}   end  # date with timeofday
-                                                               # moments    are the *tocks*
-                                                               # timestamps are the *ticks*
-
-abstract type AbstractDate{T}      <: AbstractClock{T}    end  # date without timeofday
-abstract type AbstractTimeOfDay{T} <: AbstractClock{T}    end  # timeofday without date
-
-#=>
-    Informed Types
-
-    These types allow temporal frameworks and admit location-aware zones
-<=#
-
-abstract type Clocks{T,Z}     <: AbstractClock{T}     end  # date with timeofday
-abstract type Dates{T,Z}      <: AbstractDate{T}      end  # date without timeofday
-abstract type TimesOfDay{T,Z} <: AbstractTimeOfDay{T} end  # timeofday without date
 
 #=>
     Kinds of Duration
@@ -57,12 +47,13 @@ abstract type TimesOfDay{T,Z} <: AbstractTimeOfDay{T} end  # timeofday without d
                * a span, an inclusion of moment-grain sequence[s]
 <=#
 
+#=
 abstract type AbstractTimePeriod{T} <: AbstractDuration{T} end # attachable undirected
 abstract type AbstractTimeSpan{T}   <: AbstractDuration{T} end # unattached oriented
 
 abstract type TimePeriods{T,Z} <: AbstractTimePeriod{T} end # Z relative, mean solar seconds
 abstract type TimeSpans{T,Z}   <: AbstractTimeSpan{T}   end # Z relative, 86400 SI seconds
-
+=#
 
 #= was
 
