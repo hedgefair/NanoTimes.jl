@@ -13,3 +13,8 @@ function Span(value::T) where T <:AbstractTime
          throw(e)
      end
 end
+
+# use Span{Int64} as the default Span type
+
+Span(x::T) where T = Span{Int64}(x)
+Span(x::T1, y::T2) where T2 where T1 = Span{Int64}(x, y)
