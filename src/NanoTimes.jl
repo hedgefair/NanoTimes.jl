@@ -31,6 +31,7 @@ const IntTime  = Int64                   # one of IntTimes
 include("types/Abstract.jl")
 include("types/Clock/Clock.jl")
 include("types/Span/Span.jl")
+include("types/Period/Period.jl")
 include("types/hash.jl")
 
 const Time = Clock
