@@ -68,6 +68,7 @@ time = Time(2017, 1, 2, 12, 34, 56, 765, 432, 100)
 @test parse(Time, "20170102 12:34:56.7654321") == time
 @test parse(Time, "170102 12:34:56.7654321") == time
 
-span = Span(day=2, hour=12, minute=34, second=56, millisecond=765, microsecond=432, nanosecond=100)
+#span = Span(day=2, hour=12, minute=34, second=56, millisecond=765, microsecond=432, nanosecond=100)
+span = Span(2, 12, 34, 56, 765, 432, 100)
 
 @test parse(Span, "2d12:34:56.7654321") == span
