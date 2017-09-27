@@ -17,6 +17,26 @@ abstract type NanosecondBased{T} <: AttosecondBased{T}    end
 abstract type SecondBased{T}     <: NanosecondBased{T}    end
 abstract type DayBased{T}        <: SecondBased{T}        end
 
+
+#=>
+     For the whole units of time Month and Year with familiar positive integer multiples
+         [month, quarter] as {1, 3} Months and [year, decade] as {1, 10}
+
+     Each of the YearBased units can be expressed exactly using the MonthBased units.
+     None of the MonthBased units can be expressed exactly using the YearBased units.
+
+     With abstract subtypes, this simplifies safe dispatch and helps with correctness.
+<=#
+
+abstract type MonthBased{T}   <: AbstractTimePeriod{T} end
+abstract type YearBased{T}    <: MonthBased{T}         end
+
+abstract type SubsecondBased{T}  <: AbstractTimePeriod{T} end
+abstract type AttosecondBased{T} <: SubsecondBased{T}     end
+abstract type NanosecondBased{T} <: AttosecondBased{T}    end
+abstract type SecondBased{T}     <: NanosecondBased{T}    end
+abstract type DayBased{T}        <: SecondBased{T}        end
+
 #=
     struct <symbol> .. end
     singular form holds a singleton type
@@ -25,125 +45,43 @@ abstract type DayBased{T}        <: SecondBased{T}        end
     plural form holds a wrapper type
 =#
 
-sym2syms(z) = (z, Symbol(string(z,'s')))
+periods = [     
+     (:AttosecondBased, :Attosecond, :Attoseconds),
+     (:AttosecondBased, :Femtosecond, :Femtoseconds),
+     (:AttosecondBased, :Picosecond, :Picoseconds),
+     (:NanosecondBased, :Nanosecond, :Nanoseconds),
+     (:NanosecondBased, :Microsecond, :Microseconds),
+     (:NanosecondBased, :Millisecond, :Milliseconds),
+     (:SecondBased, :Second, :Seconds),
+     (:SecondBased, :Minute, :Minutes),
+     (:SecondBased, :Hour, :Hours),
+     (:MonthBased, :Month, :Months),
+     (:MonthBased, :Quarter, :Quarters),
+     (:YearBased, :Year, :Years),
+     (:YearBased, :Decade, :Decades),
+     (:YearBased, :Century, :Centuries)
+]
 
-for (P,S) in map(sym2syms, [:Year, :Decade, :Century])
-  @eval begin
-    struct $P{T} <: YearBased{T} end
+for (B,S,V) in periods
+    @eval begin
+        struct $S{T} <: $B{T} end
 
-    struct $S{T} <: YearBased{T}
-        value::T
+        struct $V{T} <: $B{T}
+            value::T
+        end
+        value(x::$V{T}) where T = x.value
 
-        function $S(::Type{T}, value::S) where {S<:String,T}
-            val = parse(T,value)
-            return new{T}( val )
+        $V(x::$V{T}) where T = x
+        $V{T}(x::$V{T}) where T = x
+        
+        function $V{I}(x::$V{J}) where I where J
+            val = trunc(I, value(x))
+            return $V(val)
+        end
+        function $V(x::S) where S<:String
+            I = length(x) <= 12 ? Int64 : Int128
+            val = parse(I, x)
+            return $V(val)
         end
     end
-    value(x::$S{T}) where T = x.value
-
-    $S(x::$S{T}) where T = x
-    $S{T1}(x::$S{T2}) where {T1,T2} = $S(T1(value(x)))
-    $S(x::S) where S<:String = $S( (length(x) <= 12 ? Int64 : Int128), x )
-  end
 end
-
-for (P,S) in map(sym2syms, [:Month, :Quarter])
-  @eval begin
-    struct $P{T} <: MonthBased{T} end
-
-    struct $S{T} <: MonthBased{T}
-        value::T
-
-        function $S(::Type{T}, value::S) where {S<:String,T}
-            val = parse(T,value)
-            return new{T}( val )
-        end
-    end
-    value(x::$S{T}) where T = x.value
-
-    $S(x::$S{T}) where T = x
-    $S{T1}(x::$S{T2}) where {T1,T2} = $S(T1(value(x)))
-    $S(x::S) where S<:String = $S( (length(x) <= 12 ? Int64 : Int128), x )
-  end
-end
-
-for (P,S) in map(sym2syms, [:Day, :Week])
-  @eval begin
-    struct $P{T} <: DayBased{T} end
-
-    struct $S{T} <: DayBased{T}
-        value::T
-
-        function $S(::Type{T}, value::S) where {S<:String,T}
-            val = parse(T,value)
-            return new{T}( val )
-        end
-    end
-    value(x::$S{T}) where T = x.value
-
-    $S(x::$S{T}) where T = x
-    $S{T1}(x::$S{T2}) where {T1,T2} = $S(T1(value(x)))
-    $S(x::S) where S<:String = $S( (length(x) <= 12 ? Int64 : Int128), x )
-  end
-end
-
-for (P,S) in map(sym2syms, [:Second, :Minute, :Hour])
-  @eval begin
-    struct $P{T} <: SecondBased{T} end
-
-    struct $S{T} <: SecondBased{T}
-        value::T
-
-        function $S(::Type{T}, value::S) where {S<:String,T}
-            val = parse(T,value)
-            return new{T}( val )
-        end
-    end
-    value(x::$S{T}) where T = x.value
-
-    $S(x::$S{T}) where T = x
-    $S{T1}(x::$S{T2}) where {T1,T2} = $S(T1(value(x)))
-    $S(x::S) where S<:String = $S( (length(x) <= 12 ? Int64 : Int128), x )
-  end
-end
-
-for (P,S) in map(sym2syms, [:Nanosecond, :Microsecond, :Millisecond])
-  @eval begin
-    struct $P{T} <: NanosecondBased{T} end
-
-    struct $S{T} <: NanosecondBased{T}
-        value::T
-
-        function $S(::Type{T}, value::S) where {S<:String,T}
-            val = parse(T,value)
-            return new{T}( val )
-        end
-    end
-    value(x::$S{T}) where T = x.value
-
-    $S(x::$S{T}) where T = x
-    $S{T1}(x::$S{T2}) where {T1,T2} = $S(T1(value(x)))
-    $S(x::S) where S<:String = $S( (length(x) <= 12 ? Int64 : Int128), x )
-  end
-end
-
-for (P,S) in map(sym2syms, [:Attosecond, :Femtosecond, :Picosecond])
-  @eval begin
-    struct $P{T} <: AttosecondBased{T} end
-
-    struct $S{T} <: AttosecondBased{T}
-        value::T
-
-        function $S(::Type{T}, value::S) where {S<:String,T}
-            val = parse(T,value)
-            return new{T}( val )
-        end
-    end
-    value(x::$S{T}) where T = x.value
-
-    $S(x::$S{T}) where T = x
-    $S{T1}(x::$S{T2}) where {T1,T2} = $S(T1(value(x)))
-    $S(x::S) where S<:String = $S( (length(x) <= 12 ? Int64 : Int128), x )
-  end
-end
-
