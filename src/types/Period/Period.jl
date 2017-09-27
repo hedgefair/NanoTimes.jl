@@ -37,23 +37,6 @@ abstract type NanosecondBased{T} <: AttosecondBased{T}    end
 abstract type SecondBased{T}     <: NanosecondBased{T}    end
 abstract type DayBased{T}        <: SecondBased{T}        end
 
-const periods = [     
-     (:AttosecondBased, :Attosecond, :Attoseconds),
-     (:AttosecondBased, :Femtosecond, :Femtoseconds),
-     (:AttosecondBased, :Picosecond, :Picoseconds),
-     (:NanosecondBased, :Nanosecond, :Nanoseconds),
-     (:NanosecondBased, :Microsecond, :Microseconds),
-     (:NanosecondBased, :Millisecond, :Milliseconds),
-     (:SecondBased, :Second, :Seconds),
-     (:SecondBased, :Minute, :Minutes),
-     (:SecondBased, :Hour, :Hours),
-     (:MonthBased, :Month, :Months),
-     (:MonthBased, :Quarter, :Quarters),
-     (:YearBased, :Year, :Years),
-     (:YearBased, :Decade, :Decades),
-     (:YearBased, :Century, :Centuries)
-]
-
 #=
     struct <symbol> .. end
     singular form holds a singleton type
@@ -62,14 +45,29 @@ const periods = [
     plural form holds a wrapper type
 =#
 
-for (B,S,V) in periods
+for (B,S,V) in [
+    (:AttosecondBased, :Attosecond, :Attoseconds),
+    (:AttosecondBased, :Femtosecond, :Femtoseconds),
+    (:AttosecondBased, :Picosecond, :Picoseconds),
+    (:NanosecondBased, :Nanosecond, :Nanoseconds),
+    (:NanosecondBased, :Microsecond, :Microseconds),
+    (:NanosecondBased, :Millisecond, :Milliseconds),
+    (:SecondBased, :Second, :Seconds),
+    (:SecondBased, :Minute, :Minutes),
+    (:SecondBased, :Hour, :Hours),
+    (:MonthBased, :Month, :Months),
+    (:MonthBased, :Quarter, :Quarters),
+    (:YearBased, :Year, :Years),
+    (:YearBased, :Decade, :Decades),
+    (:YearBased, :Century, :Centuries) 
+  ]
     @eval begin
         struct $S{T} <: $B{T} end
 
         struct $V{T} <: $B{T}
             value::T
         end
-        value(x::$V{T}) where T = x.value
+        value(x::$V{T}) where T = x.valuen
 
         $V(x::$V{T}) where T = x
         $V{T}(x::$V{T}) where T = x
@@ -85,3 +83,24 @@ for (B,S,V) in periods
         end
     end
 end
+
+# disallow conversions with mismatched scales
+for (A,B) in [
+    (:AttosecondBased, :SecondBased)
+    (:AttosecondBased, :MonthBased)
+    (:AttosecondBased, :YearBased)
+    (:NanosecondBased, :MonthBased)
+    (:NanosecondBased, :YearBased)
+    (:SecondBased, :MonthBased)
+    (:SecondBased, :YearBased)
+  ]
+    @eval begin
+        function Base.convert(::Type{T1}, x::T2) where T1<:A{T} where T2<:B{T} where T
+            throw(ErrorException("Unsupported conversion"))
+        end
+        function Base.convert(::Type{T2}, x::T1) where T1<:A{T} where T2<:B{T} where T
+            throw(ErrorException("Unsupported conversion"))
+        end
+    end
+end
+
