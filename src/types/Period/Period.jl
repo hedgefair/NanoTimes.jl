@@ -37,15 +37,7 @@ abstract type NanosecondBased{T} <: AttosecondBased{T}    end
 abstract type SecondBased{T}     <: NanosecondBased{T}    end
 abstract type DayBased{T}        <: SecondBased{T}        end
 
-#=
-    struct <symbol> .. end
-    singular form holds a singleton type
-
-    struct <symbol>s .. end
-    plural form holds a wrapper type
-=#
-
-periods = [     
+const periods = [     
      (:AttosecondBased, :Attosecond, :Attoseconds),
      (:AttosecondBased, :Femtosecond, :Femtoseconds),
      (:AttosecondBased, :Picosecond, :Picoseconds),
@@ -61,6 +53,14 @@ periods = [
      (:YearBased, :Decade, :Decades),
      (:YearBased, :Century, :Centuries)
 ]
+
+#=
+    struct <symbol> .. end
+    singular form holds a singleton type
+
+    struct <symbol>s .. end
+    plural form holds a wrapper type
+=#
 
 for (B,S,V) in periods
     @eval begin
