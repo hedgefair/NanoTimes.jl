@@ -8,6 +8,9 @@ end
 
 @inline value(x::Clock{T}) where T = x.value
 
+Base.convert(::Type{Clock{T}}, x::Int64) where T<:IntTimes = Clock(x)
+Base.convert(::Type{Clock{T}}, x::Int128) where T<:IntTimes = Clock(x)
+
 function Clock(value::T) where T<:Union{Int16, Int32, UInt16, UInt32, UInt64}
     try
         return Clock(convert(Int64, value))    
