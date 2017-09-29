@@ -6,7 +6,7 @@
      None of the MonthBased units can be expressed exactly using any of the YearBased units.
 
      These abstract subtype relationships are used to simplify safe dispatch and provide correctness.
-<=#
+=#
 
 abstract type MonthBased{T}   <: AbstractTimePeriod{T} end
 abstract type YearBased{T}    <: MonthBased{T}         end
