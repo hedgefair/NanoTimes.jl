@@ -67,7 +67,7 @@ for (B,S,V) in [
         struct $V{T} <: $B{T}
             value::T
         end
-        value(x::$V{T}) where T = x.valuen
+        @inline value(x::$V{T}) where T = x.value
 
         $V(x::$V{T}) where T = x
         $V{T}(x::$V{T}) where T = x
