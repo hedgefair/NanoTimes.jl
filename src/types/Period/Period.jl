@@ -95,10 +95,10 @@ for (A,B) in [
     (:SecondBased, :YearBased)
   ]
     @eval begin
-        function Base.convert(::Type{T1}, x::T2) where T1<:A{T} where T2<:B{T} where T
-            throw(ErrorException("Unsupported conversion"))
+        function Base.convert(::Type{T1}, x::T2) where T1<:A{T} where T2<:B{T} where T<:Int64
+            throw(ErrorException("Unsupported conversion"))6
         end
-        function Base.convert(::Type{T2}, x::T1) where T1<:A{T} where T2<:B{T} where T
+        function Base.convert(::Type{T2}, x::T1) where T1<:A{T} where T2<:B{T} where T<:Int64
             throw(ErrorException("Unsupported conversion"))
         end
     end
