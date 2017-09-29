@@ -85,8 +85,9 @@ for (B,S,V) in [
 end
 
 # disallow conversions with mismatched scales
+#=
 for (A,B) in [
-    (:AttosecondBased, :SecondBased)
+    (:AttosecondBased{, :SecondBased)
     (:AttosecondBased, :MonthBased)
     (:AttosecondBased, :YearBased)
     (:NanosecondBased, :MonthBased)
@@ -103,4 +104,4 @@ for (A,B) in [
         end
     end
 end
-
+=#
