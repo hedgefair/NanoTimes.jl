@@ -1,9 +1,5 @@
 struct Clock{T} <: AbstractClock{T}
     value::T
-
-    function Clock(value::T) where T<:IntTimes
-        return new{T}(value)
-    end
 end
 
 @inline value(x::Clock{T}) where T = x.value
