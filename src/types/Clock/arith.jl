@@ -7,7 +7,7 @@ end
 
 for P in (:Nanosecond, :Microsecond, :Millisecond, :Second, :Minute, :Hour, :Day, :Week)
     @eval begin
-        (+)(x::Clock{I}, p::$P) = Clock(nanoseconds(x) + nanoseconds(p))
+        (+)(x::Clock, p::$P) = Clock(nanoseconds(x) + nanoseconds(p))
         (+)(p::$P, x::Clock) = Clock(nanoseconds(x) + nanoseconds(p))
         (-)(x::Clock, p::$P) = Clock(nanoseconds(x) - nanoseconds(p))
     end
