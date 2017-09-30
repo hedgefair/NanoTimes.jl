@@ -18,7 +18,7 @@
 @inline nanoseconds(x::Nanoseconds)  = value(x)
 @inline months(x::Months) = value(x)
 @inline months(x::Quarters) = value(x) * QUARTERS_PER_YEAR
-@inline months(x::Year) = value(x) * MONTHS_PER_YEAR
+@inline months(x::Years) = value(x) * MONTHS_PER_YEAR
 
 for P in (:Day, :Hour, :Minute, :Second, :Millisecond, :Microsecond, :Nanosecond)
     @eval Nanoseconds(x::$P) = Nanoseconds(nanoseconds(x))
