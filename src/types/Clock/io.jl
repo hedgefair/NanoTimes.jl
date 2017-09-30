@@ -1,1 +1,1 @@
-Base.show(io::IO, x::Clock{T}) where T = print(io, string(x))
+Base.show(io::IO, x::Clock) = print(io, string(x))
