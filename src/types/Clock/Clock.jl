@@ -1,15 +1,12 @@
-struct Clock{T} <: AbstractClock{T}
-    value::T
+struct Clock <: AbstractClock{T}
+    value::IntTime
 end
 
-@inline value(x::Clock{T}) where T = x.value
-
-Base.convert(::Type{Clock{T}}, x::Int64) where T<:IntTimes = Clock(x)
-Base.convert(::Type{Clock{T}}, x::Int128) where T<:IntTimes = Clock(x)
+@inline value(x::Clock) = x.value
 
 function Clock(value::T) where T<:Union{Int16, Int32, UInt16, UInt32, UInt64}
     try
-        return Clock(convert(Int64, value))    
+        return Clock(convert(IntTime, value))    
     catch e
         throw(e)
     end
@@ -17,7 +14,7 @@ end
 
 function Clock(value::T) where T<:Integer
     try
-        return Clock(convert(Int128, value))    
+        return Clock(convert(IntTime, value))    
     catch e
         throw(e)
     end
