@@ -1,73 +1,64 @@
 #=>
-    It is important that provide a shared abstraction 
+    It is important that provide a shared abstraction
     used for all interoperable manner of typed times..
     This has been `AbstractTime` in Base.Dates.
-
     JuliaTime will release AbstractTimes.jl, a small
     module from which to export a more refined type
     and the few sub-abstractions deemed advantageous
-    for dispatch management and leaf type design.
-<=#    
+    Type Parameters
+    T is the primitive type used for time keeping in the applicable frame
+    R is gives a temporal frame of reference, e.g. local, ut, tai ..
+<=#
 
 import Base.Dates.AbstractTime
 
+"""
+     TemporalAbstraction
+This is our root abstraction for matters of time.
+"""
 abstract type TemporalAbstraction <: Base.Dates.AbstractTime end
 
-#=>
-    Type Parameters
+"""
+    AbstractMoment
+A moment is granular position along the continuum of time.
+You can think of moments as fat points in time.  Moments that
+cover a second are "thinner" than moments covering an hour.
+"""
+abstract type AbstractMoment   <: TemporalAbstraction end  # fat points in time
 
-    T is the primitive type used for time keeping in the applicable frame
-    Z is locative as an operational relative frame for temporal reference
-<=#
+"""
+    AbstractClock
+A clock tracks date and time of day.
+"""
+abstract type AbstractClock{T}      <: AbstractMoment end
 
-abstract type AbstractMoment{T}      <: TemporalAbstraction end
-abstract type AbstractClock{T}       <: AbstractMoment{T} end  # date with timeofday
+"""
+    AbstractDate
+A date tracks calendric dates.
+"""
+abstract type AbstractDate{T}       <: AbstractClock{T} end
 
-#=
-abstract type AbstractTimeDate{T,Z}  <: AbstractClock{T}       end  # date with timeofday
-abstract type AbstractCalenDate{T,Z} <: AbstractTimeDate{T,Z}  end  # date without timeofday
-abstract type AbstractTimeOfDay{T,Z} <: AbstractTimeDate{T,Z}  end  # timeofday without date
-=#
+"""
+    AbstractTimeOfDay
+A timeofday tracks time within a date.
+"""
+abstract type AbstractTimeOfDay{T}  <: AbstractClock{T} end
 
-abstract type AbstractDuration{T}    <: TemporalAbstraction end
-abstract type AbstractTimePeriod{T}  <: AbstractDuration{T} end # years, days, seconds ..
-abstract type AbstractTimeSpan{T}    <: AbstractDuration{T} end # like a clopen interval with sign
+"""
+    AbstractDuration
+A duration is an extent that collects successive moments of time.
+You can think of durations as steps through time.
+"""
+abstract type AbstractDuration <: TemporalAbstraction end
 
-#=>
-    Kinds of Duration
+"""
+    AbstractTimePeriod
+A period is a granular duration (e.g. Year, Day, Second).
+"""
+abstract type AbstractTimePeriod{T} <: AbstractDuration end
 
-    unattached ( not rooted to a specific initial moment )
-               *  clock2 - clock1, date2 - date1
-               *  three months and five days
-
-    attached   ( temporal exent taken from a specific initial moment )
-               *  the second Friday after the first Monday in September 2017
-               *  every other Tuesday starting with 2017-10-03
-               *  the end of the current Quarter
-
-    undirected ( temporal extent that is unsigned )
-               * a cover encompassing moments given as equi-grain [multi-]sequence[s]
-
-    oriented   ( temporal extent signed, and {- abs} apply )
-               * a span, an inclusion of moment-grain sequence[s]
-<=#
-
-#=
-abstract type AbstractTimePeriod{T} <: AbstractDuration{T} end # attachable undirected
-abstract type AbstractTimeSpan{T}   <: AbstractDuration{T} end # unattached oriented
-
-abstract type TimePeriods{T,Z} <: AbstractTimePeriod{T} end # Z relative, mean solar seconds
-abstract type TimeSpans{T,Z}   <: AbstractTimeSpan{T}   end # Z relative, 86400 SI seconds
-=#
-
-#= was
-
-import Base.Dates.AbstractTime
-
-abstract type AbstractTimePeriod{T} <: AbstractDuration{T} end # attachable undirected
-abstract type AbstractTimeSpan{T}   <: AbstractDuration{T} end # unattached oriented
-
-abstract type TimePeriods{T,Z} <: AbstractTimePeriod{T} end # Z relative, mean solar seconds
-abstract type TimeSpans{T,Z}   <: AbstractTimeSpan{T}   end # Z relative, 86400 SI seconds
-
-=#
+"""
+    AbstractTimeSpan
+A time span is a signed succession of time periods.
+"""
+abstract type AbstractTimeSpan{T} <: AbstractDuration end
