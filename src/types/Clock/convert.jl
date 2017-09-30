@@ -1,7 +1,7 @@
 function Clock(dt::Date)
     rata = date2rata(dt)
     rataguard(rata)
-    nanosec = I( (rata - RATAFIRST) * NANOSECONDS_PER_DAY )
+    nanosec = (rata - RATAFIRST) * NANOSECONDS_PER_DAY
     return Clock(nanosec)
 end
 
