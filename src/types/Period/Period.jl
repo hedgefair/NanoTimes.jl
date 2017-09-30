@@ -59,20 +59,13 @@ for (B,S,V) in [
     (:YearBased, :Century, :Centuries) 
   ]
     @eval begin
-        # struct $S{T} <: $B{T} end
-
-        struct $V{T} <: $B{T}
+        struct $V <: $B
             value::T
         end
-        @inline value(x::$V{T}) where T = x.value
+        @inline value(x::$V) = x.value
 
-        $V(x::$V{T}) where T = x
-        $V{T}(x::$V{T}) where T = x
+        $V(x::$V) where T = x
         
-        function $V{I}(x::$V{J}) where I where J
-            val = trunc(I, value(x))
-            return $V(val)
-        end
         function $V(x::S) where S<:String
             I = length(x) <= 12 ? Int64 : Int128
             val = parse(I, x)
