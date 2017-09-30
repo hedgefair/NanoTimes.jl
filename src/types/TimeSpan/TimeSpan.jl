@@ -1,7 +1,8 @@
 struct TimeSpan <: AbstractTimeSpan
     nanos::IntSpan
-	months::IntSpan
+    months::IntSpan
 end
+
 @inline nanoseconds(x::TimeSpan) = x.nanos
 @inline months(x::TimeSpan) = x.months
 
