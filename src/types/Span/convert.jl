@@ -15,7 +15,7 @@ Span(x::Millisecond) = Span(x.value * NANOSECONDS_PER_MILLISECOND)
 Span(x::Microsecond) = Span(x.value * NANOSECONDS_PER_MICROSECOND)
 Span(x::Nanosecond)  = Span(x.value)
 
-function Span(day::Int64=zero(I),
+function Span(day::I=zero(I),
               hour::I=zero(I), minute::I=zero(I), second::I=zero(I),
               millisecond::I=zero(I), microsecond::I=zero(I), 
               nanosecond::I=zero(I)) where I<:IntTime
