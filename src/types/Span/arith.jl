@@ -37,8 +37,11 @@ end
 (Base.fldmod)(x::Span, y::Span) = fld(x,y), mod(x,y)
 
 
-for P in (:Nanosecond, :Microsecond, :Millisecond, :Second, :Minute, :Hour, :Day, :Week,
-          :Nanoseconds, :Microseconds, :Milliseconds, :Seconds, :Minutes, :Hours, :Days, :Weeks)
+
+for P in [:Nanosecond, :Microsecond, :Millisecond, 
+          :Second, :Minute, :Hour, :Day, :Week,
+		  :Nanoseconds, :Microseconds, :Milliseconds, 
+          :Seconds, :Minutes, :Hours]
     @eval begin
         (+)(x::Span, p::$P) = Span(nanoseconds(x) + nanoseconds(p))
         (+)(p::$P, x::Span) = Span(nanoseconds(x) + nanoseconds(p))
