@@ -43,12 +43,12 @@ function Date(x::Clock)
     return rata2date(dat)
 end
 
-function Base.Dates.Time(x::Clock{I}) where I<:IntTimes
+function Base.Dates.Time(x::Clock)
     nanos = nanoseconds(x)
     return Base.Dates.Time(Nanosecond(nanos))
 end
 
-function DateTime(x::Clock{I}) where I<:IntTimes
+function DateTime(x::Clock)
     nanos = nanoseconds(x)
     dat, tim = fldmod(nanos, NANOSECONDS_PER_DAY)
     dat = rata2date(dat + RATAFIRST)
