@@ -25,6 +25,7 @@ import Base.Dates:Date, DateTime,
     millisecond, microsecond, nanosecond
 
 const IntTime = Int64
+const IntSpan = Int64
 
 include("support/chars.jl")
 include("support/granular_consts.jl")
