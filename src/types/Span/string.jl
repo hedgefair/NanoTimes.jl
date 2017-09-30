@@ -56,7 +56,7 @@ end
 
 # settable subsecond precision
 
-function Base.string(x::Span{T}, subsec_digits::Int) where T
+function Base.string(x::Span, subsec_digits::Int)
     if signbit(subsec_digits) || subsec_digits > 9
         throw(ErrorException("Subseconds use 0..9 digits, not $(subsec_digits)"))
     end
