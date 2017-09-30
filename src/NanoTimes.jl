@@ -9,9 +9,9 @@ export Time, Span,
     Millisecond, Microsecond, Nanosecond,
     year, month, week, day, hour, minute, second,
     millisecond, microsecond, nanosecond,
-    Weeks, Days, Hours, Minutes, Seconds,
+    Years, Quarters, Months, Weeks, Days, Hours, Minutes, Seconds,
     Milliseconds, Microseconds, Nanoseconds,
-    weeks, days, hours, minutes, seconds,
+    years, quarters, months, weeks, days, hours, minutes, seconds,
     milliseconds, microseconds, nanoseconds
 
 import Base.Dates:Date, DateTime,
