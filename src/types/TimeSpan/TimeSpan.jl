@@ -5,11 +5,63 @@ end
 @inline nanoseconds(x::TimeSpan) = x.nanos
 @inline months(x::TimeSpan) = x.months
 
+Base.zero(::Type{TimeSpan}) = TimeSpan(zero(IntSpan), zero(IntSpan))
+
 TimeSpan(x::Span) = TimeSpan(value(x), zero(IntSpan))
 TimeSpan(x::T) where T<:NanosecondBased =
     TimeSpan(nanoseconds(x), zero(IntSpan))
 TimeSpan(x::T) where T<:MonthBased =
     TimeSpan(zero(IntSpan), months(x))
+
+function TimeSpan(x::Base.Dates.CompoundPeriod)
+    result = zero(TimeSpan)
+	for p in x.periods
+	   result = result + p
+	end
+	return result
+end	
+
+Base.:(+)(x::TimeSpan, y::Base.Dates.Year) =
+    TimeSpan(nanoseconds(x), months(x) + (Base.Dates.year(y) * MONTHS_PER_YEAR))
+Base.:(+)(x::TimeSpan, y::Base.Dates.Month) =
+    TimeSpan(nanoseconds(x), months(x) + Base.Dates.month(y))
+Base.:(+)(x::TimeSpan, y::Base.Dates.Week) =
+    TimeSpan(nanoseconds(x) + (Base.Dates.week(y) * NANOSECONDS_PER_WEEK), months(x))
+Base.:(+)(x::TimeSpan, y::Base.Dates.Day) =
+    TimeSpan(nanoseconds(x) + (Base.Dates.day(y) * NANOSECONDS_PER_DAY), months(x))
+Base.:(+)(x::TimeSpan, y::Base.Dates.Hour) =
+    TimeSpan(nanoseconds(x) + (Base.Dates.hour(y) * NANOSECONDS_PER_HOUR), months(x))
+Base.:(+)(x::TimeSpan, y::Base.Dates.Minute) =
+    TimeSpan(nanoseconds(x) + (Base.Dates.minute(y) * NANOSECONDS_PER_MINUTE), months(x))
+Base.:(+)(x::TimeSpan, y::Base.Dates.Second) =
+    TimeSpan(nanoseconds(x) + (Base.Dates.second(y) * NANOSECONDS_PER_SECOND), months(x))
+Base.:(+)(x::TimeSpan, y::Base.Dates.Millisecond) =
+    TimeSpan(nanoseconds(x) + (Base.Dates.millisecond(y) * NANOSECONDS_PER_MILLISECOND), months(x))
+Base.:(+)(x::TimeSpan, y::Base.Dates.Microsecond) =
+    TimeSpan(nanoseconds(x) + (Base.Dates.microsecond(y) * NANOSECONDS_PER_MICROSECOND), months(x))
+Base.:(+)(x::TimeSpan, y::Base.Dates.Nanosecond) =
+    TimeSpan(nanoseconds(x) + Base.Dates.nanosecond(y), months(x))
+
+Base.:(-)(x::TimeSpan, y::Base.Dates.Year) =
+    TimeSpan(nanoseconds(x), months(x) - (Base.Dates.year(y) * MONTHS_PER_YEAR))
+Base.:(-)(x::TimeSpan, y::Base.Dates.Month) =
+    TimeSpan(nanoseconds(x), months(x) - Base.Dates.month(y))
+Base.:(-)(x::TimeSpan, y::Base.Dates.Week) =
+    TimeSpan(nanoseconds(x) - (Base.Dates.week(y) * NANOSECONDS_PER_WEEK), months(x))
+Base.:(-)(x::TimeSpan, y::Base.Dates.Day) =
+    TimeSpan(nanoseconds(x) - (Base.Dates.day(y) * NANOSECONDS_PER_DAY), months(x))
+Base.:(-)(x::TimeSpan, y::Base.Dates.Hour) =
+    TimeSpan(nanoseconds(x) - (Base.Dates.hour(y) * NANOSECONDS_PER_HOUR), months(x))
+Base.:(-)(x::TimeSpan, y::Base.Dates.Minute) =
+    TimeSpan(nanoseconds(x) - (Base.Dates.minute(y) * NANOSECONDS_PER_MINUTE), months(x))
+Base.:(-)(x::TimeSpan, y::Base.Dates.Second) =
+    TimeSpan(nanoseconds(x) - (Base.Dates.second(y) * NANOSECONDS_PER_SECOND), months(x))
+Base.:(-)(x::TimeSpan, y::Base.Dates.Millisecond) =
+    TimeSpan(nanoseconds(x) - (Base.Dates.millisecond(y) * NANOSECONDS_PER_MILLISECOND), months(x))
+Base.:(-)(x::TimeSpan, y::Base.Dates.Microsecond) =
+    TimeSpan(nanoseconds(x) - (Base.Dates.microsecond(y) * NANOSECONDS_PER_MICROSECOND), months(x))
+Base.:(-)(x::TimeSpan, y::Base.Dates.Nanosecond) =
+    TimeSpan(nanoseconds(x) - Base.Dates.nanosecond(y), months(x))
 
 Base.:(-)(x::TimeSpan) =
     TimeSpan(-nanoseconds(x), -months(x))
@@ -23,11 +75,9 @@ Base.abs(x::TimeSpan) =
 	end
 	
 Base.:(+)(x::TimeSpan, y::TimeSpan) =
-    TimeSpan(nanoseconds(x)+nanoseconds(y),
-	         months(x)+months(y))
+    TimeSpan(nanoseconds(x)+nanoseconds(y), months(x)+months(y))
 Base.:(-)(x::TimeSpan, y::TimeSpan) =
-    TimeSpan(nanoseconds(x)-nanoseconds(y),
-	         months(x)-months(y))
+    TimeSpan(nanoseconds(x)-nanoseconds(y), months(x)-months(y))
 
 Base.:(+)(x::T1, y::T2) where T1<:NanosecondBased where T2<:MonthBased =
     TimeSpan(nanoseconds(x), months(y))
@@ -74,8 +124,6 @@ Base.:(-)(x::T, y::TimeSpan) where T<:MonthBased =
     TimeSpan(nanoseconds(y), months(x)-months(y))
 
 Base.:(*)(x::TimeSpan, y::I) where I<:Union{Int64, Int32} =
-    TimeSpan(nanoseconds(x) * y,
-	         months(x) * y)
+    TimeSpan(nanoseconds(x) * y, months(x) * y)
 Base.:(*)(x::I, y::TimeSpan) where I<:Union{Int64, Int32} =
-    TimeSpan(x * nanoseconds(y),
-	         x * months(y))
+    TimeSpan(x * nanoseconds(y), x * months(y))
