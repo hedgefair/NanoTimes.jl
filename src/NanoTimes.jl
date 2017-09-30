@@ -42,6 +42,8 @@ include("types/type_utils.jl")
 const Time = Clock
 const Time24 = Base.Dates.Time
 
+include("types/Period/convert.jl")
+
 include("types/Clock/convert.jl")
 include("types/Clock/parts.jl")
 include("types/Clock/string.jl")
