@@ -15,6 +15,15 @@ Span(x::Millisecond) = Span(x.value * NANOSECONDS_PER_MILLISECOND)
 Span(x::Microsecond) = Span(x.value * NANOSECONDS_PER_MICROSECOND)
 Span(x::Nanosecond)  = Span(x.value)
 
+Span(x::Weeks)  = Span(x.value * NANOSECONDS_PER_WEEK)
+Span(x::Days)  = Span(x.value * NANOSECONDS_PER_DAY)
+Span(x::Hours) = Span(x.value * NANOSECONDS_PER_HOUR)
+Span(x::Minutes) = Span(x.value * NANOSECONDS_PER_MINUTE)
+Span(x::Seconds) = Span(x.value * NANOSECONDS_PER_SECOND)
+Span(x::Milliseconds) = Span(x.value * NANOSECONDS_PER_MILLISECOND)
+Span(x::Microseconds) = Span(x.value * NANOSECONDS_PER_MICROSECOND)
+Span(x::Nanoseconds)  = Span(x.value)
+
 function Span(day::I=zero(I),
               hour::I=zero(I), minute::I=zero(I), second::I=zero(I),
               millisecond::I=zero(I), microsecond::I=zero(I), 
