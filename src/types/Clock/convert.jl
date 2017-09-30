@@ -8,7 +8,7 @@ end
 function Clock(dtm::DateTime)
     dat = Date(dtm)
     tim = Base.Dates.Time(dtm)
-    return Clock{I}(dat, tim)
+    return Clock(dat, tim)
 end
 
 function Clock(dat::Date, tim::Base.Dates.Time)
