@@ -24,9 +24,12 @@ import Base.Dates:Date, DateTime,
     year, month, week, day, hour, minute, second,
     millisecond, microsecond, nanosecond
 
-const IntSpans = Union{Int16, Int32, Int64, Int128}
-const IntTimes = Union{Int64, Int128}
-const IntTime  = Int64                   # one of IntTimes
+const IntTime = Int64
+
+include("support/chars.jl")
+include("support/granular_consts.jl")
+include("support/rata_conversion.jl")
+include("support/string_to_smallint.jl")
 
 include("types/Abstract.jl")
 include("types/Clock/Clock.jl")
@@ -36,11 +39,6 @@ include("types/hash.jl")
 
 const Time = Clock
 const Time24 = Base.Dates.Time
-
-include("support/chars.jl")
-include("support/granular_consts.jl")
-include("support/rata_conversion.jl")
-include("support/string_to_smallint.jl")
 
 include("types/Clock/convert.jl")
 include("types/Clock/parts.jl")
