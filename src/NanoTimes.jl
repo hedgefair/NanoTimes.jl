@@ -45,6 +45,7 @@ const Time24 = Base.Dates.Time
 
 include("types/Period/convert.jl")
 include("types/Period/arith.jl")
+include("types/TimeSpan/periods.jl")
 
 include("types/Clock/convert.jl")
 include("types/Clock/parts.jl")
