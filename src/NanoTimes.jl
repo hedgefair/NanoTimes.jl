@@ -3,7 +3,7 @@ __precompile__()
 module NanoTimes
 
  # this module exports its own Time (aka Clock), use Time24 for the other
-export Time, Span,
+export Time, TimeSpan, Span,
     Date, DateTime, Time24,
     Year, Month, Week, Day, Hour, Minute, Second,
     Millisecond, Microsecond, Nanosecond,
@@ -36,6 +36,7 @@ include("types/Abstract.jl")
 include("types/Period/Period.jl")
 include("types/Clock/Clock.jl")
 include("types/Span/Span.jl")
+include("types/TimeSpan/TimeSpan.jl")
 include("types/hash.jl")
 include("types/type_utils.jl")
 
