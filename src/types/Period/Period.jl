@@ -23,6 +23,8 @@ for (B,V) in [
     (:SecondBased, :Seconds),
     (:SecondBased, :Minutes),
     (:SecondBased, :Hours),
+    (:SecondBased, :Days),
+    (:SecondBased, :Weeks),          
     (:MonthBased, :Months),
     (:MonthBased, :Quarters),
     (:YearBased, :Years),
