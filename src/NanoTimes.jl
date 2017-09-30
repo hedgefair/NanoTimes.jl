@@ -32,10 +32,11 @@ include("support/rata_conversion.jl")
 include("support/string_to_smallint.jl")
 
 include("types/Abstract.jl")
+include("types/Period/Period.jl")
 include("types/Clock/Clock.jl")
 include("types/Span/Span.jl")
-include("types/Period/Period.jl")
 include("types/hash.jl")
+include("types/type_utils.jl")
 
 const Time = Clock
 const Time24 = Base.Dates.Time
