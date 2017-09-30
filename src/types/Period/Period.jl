@@ -8,39 +8,36 @@
      These abstract subtype relationships are used to simplify safe dispatch and provide correctness.
 =#
 
-abstract type MonthBased{T}   <: AbstractTimePeriod{T} end
-abstract type YearBased{T}    <: MonthBased{T}         end
+abstract type MonthBased   <: AbstractTimePeriod{T} end
+abstract type YearBased    <: MonthBased         end
 
-abstract type SubsecondBased{T}  <: AbstractTimePeriod{T} end
-abstract type AttosecondBased{T} <: SubsecondBased{T}     end
-abstract type NanosecondBased{T} <: AttosecondBased{T}    end
-abstract type SecondBased{T}     <: NanosecondBased{T}    end
-abstract type DayBased{T}        <: SecondBased{T}        end
+abstract type SubsecondBased  <: AbstractTimePeriod{T} end
+abstract type AttosecondBased <: SubsecondBased     end
+abstract type NanosecondBased <: AttosecondBased    end
+abstract type SecondBased     <: NanosecondBased    end
+abstract type DayBased        <: SecondBased        end
 
 
 #=>
      For the whole units of time Month and Year with familiar positive integer multiples
          [month, quarter] as {1, 3} Months and [year, decade] as {1, 10}
-
      Each of the YearBased units can be expressed exactly using the MonthBased units.
      None of the MonthBased units can be expressed exactly using the YearBased units.
-
      With abstract subtypes, this simplifies safe dispatch and helps with correctness.
 <=#
 
-abstract type MonthBased{T}   <: AbstractTimePeriod{T} end
-abstract type YearBased{T}    <: MonthBased{T}         end
+abstract type MonthBased   <: AbstractTimePeriod{T} end
+abstract type YearBased    <: MonthBased end
 
-abstract type SubsecondBased{T}  <: AbstractTimePeriod{T} end
-abstract type AttosecondBased{T} <: SubsecondBased{T}     end
-abstract type NanosecondBased{T} <: AttosecondBased{T}    end
-abstract type SecondBased{T}     <: NanosecondBased{T}    end
-abstract type DayBased{T}        <: SecondBased{T}        end
+abstract type SubsecondBased  <: AbstractTimePeriod{T} end
+abstract type AttosecondBased <: SubsecondBased     end
+abstract type NanosecondBased <: AttosecondBased    end
+abstract type SecondBased     <: NanosecondBased    end
+abstract type DayBased        <: SecondBased        end
 
 #=
     struct <symbol> .. end
     singular form holds a singleton type
-
     struct <symbol>s .. end
     plural form holds a wrapper type
 =#
@@ -83,25 +80,3 @@ for (B,S,V) in [
         end
     end
 end
-
-# disallow conversions with mismatched scales
-#=
-for (A,B) in [
-    (:AttosecondBased{, :SecondBased)
-    (:AttosecondBased, :MonthBased)
-    (:AttosecondBased, :YearBased)
-    (:NanosecondBased, :MonthBased)
-    (:NanosecondBased, :YearBased)
-    (:SecondBased, :MonthBased)
-    (:SecondBased, :YearBased)
-  ]
-    @eval begin
-        function Base.convert(::Type{T1}, x::T2) where T1<:A{T} where T2<:B{T} where T<:Int64
-            throw(ErrorException("Unsupported conversion"))
-        end
-        function Base.convert(::Type{T2}, x::T1) where T1<:A{T} where T2<:B{T} where T<:Int64
-            throw(ErrorException("Unsupported conversion"))
-        end
-    end
-end
-=#
