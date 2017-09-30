@@ -16,7 +16,7 @@ function Clock(dat::Date, tim::Base.Dates.Time)
     rataguard(rata)
     nanosec = (rata - RATAFIRST) * NANOSECONDS_PER_DAY
     nanosec += tim.instant.value
-    return Clock(I(nanosec))
+    return Clock(nanosec)
 end
 
 Clock(str::String) = parse(Clock, str)
