@@ -30,19 +30,19 @@ abstract type AbstractMoment   <: TemporalAbstraction end  # fat points in time
     AbstractClock
 A clock tracks date and time of day.
 """
-abstract type AbstractClock{T}      <: AbstractMoment end
+abstract type AbstractClock      <: AbstractMoment end
 
 """
     AbstractDate
 A date tracks calendric dates.
 """
-abstract type AbstractDate{T}       <: AbstractClock{T} end
+abstract type AbstractDate       <: AbstractClock end
 
 """
     AbstractTimeOfDay
 A timeofday tracks time within a date.
 """
-abstract type AbstractTimeOfDay{T}  <: AbstractClock{T} end
+abstract type AbstractTimeOfDay  <: AbstractClock end
 
 """
     AbstractDuration
@@ -55,10 +55,10 @@ abstract type AbstractDuration <: TemporalAbstraction end
     AbstractTimePeriod
 A period is a granular duration (e.g. Year, Day, Second).
 """
-abstract type AbstractTimePeriod{T} <: AbstractDuration end
+abstract type AbstractTimePeriod <: AbstractDuration end
 
 """
     AbstractTimeSpan
 A time span is a signed succession of time periods.
 """
-abstract type AbstractTimeSpan{T} <: AbstractDuration end
+abstract type AbstractTimeSpan <: AbstractDuration end
