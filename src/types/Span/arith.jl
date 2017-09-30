@@ -28,6 +28,15 @@ function (-)(x::Span, y::Span)
     return Span(nanos)
 end
 
+function (*)(x::I, y::Span) where I<:Union{Int32, Int64}
+    nanos = x * nanoseconds(y)
+    return Span(nanos)
+end
+function (*)(x::Span, y::I) where I<:Union{Int32, Int64}
+    nanos = y * nanoseconds(x)
+    return Span(nanos)
+end
+
 (Base.div)(x::Span, y::Span) = div(nanoseconds(x), nanoseconds(y))
 (Base.fld)(x::Span, y::Span) = fld(nanoseconds(x), nanoseconds(y))
 (Base.cld)(x::Span, y::Span) = cld(nanoseconds(x), nanoseconds(y))
