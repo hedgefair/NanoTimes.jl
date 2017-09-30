@@ -1,4 +1,4 @@
-struct Span <: AbstractSpan{T}
+struct Span <: AbstractSpan
     value::IntTime
 end
 
