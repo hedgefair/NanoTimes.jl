@@ -6,7 +6,18 @@
 @inline nanoseconds(x::Microsecond) = Base.Dates.value(x) * NANOSECONDS_PER_MICROSECOND
 @inline nanoseconds(x::Nanosecond)  = Base.Dates.value(x)
 
+@inline nanoseconds(x::Days)  = value(x) * NANOSECONDS_PER_DAY
+@inline nanoseconds(x::Hours) = value(x) * NANOSECONDS_PER_HOUR
+@inline nanoseconds(x::Minutes) = value(x) * NANOSECONDS_PER_MINUTE
+@inline nanoseconds(x::Seconds) = value(x) * NANOSECONDS_PER_SECOND
+@inline nanoseconds(x::Milliseconds) = value(x) * NANOSECONDS_PER_MILLISECOND
+@inline nanoseconds(x::Microseconds) = value(x) * NANOSECONDS_PER_MICROSECOND
+@inline nanoseconds(x::Nanoseconds)  = value(x)
+
 for P in (:Day, :Hour, :Minute, :Second, :Millisecond, :Microsecond, :Nanosecond)
+    @eval Nanoseconds(x::$P) = Nanoseconds(nanoseconds(x))
+end
+for P in (:Days, :Hours, :Minutes, :Seconds, :Milliseconds, :Microseconds, :Nanoseconds)
     @eval Nanoseconds(x::$P) = Nanoseconds(nanoseconds(x))
 end
 
