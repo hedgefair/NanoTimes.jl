@@ -5,6 +5,8 @@
 @inline nanoseconds(x::Millisecond) = Base.Dates.value(x) * NANOSECONDS_PER_MILLISECOND
 @inline nanoseconds(x::Microsecond) = Base.Dates.value(x) * NANOSECONDS_PER_MICROSECOND
 @inline nanoseconds(x::Nanosecond)  = Base.Dates.value(x)
+@inline months(x::Month) = Base.Dates.value(x)
+@inline months(x::Year) = Base.Dates.value(x) * MONTHS_PER_YEAR
 
 @inline nanoseconds(x::Weeks)  = value(x) * NANOSECONDS_PER_WEEK
 @inline nanoseconds(x::Days)  = value(x) * NANOSECONDS_PER_DAY
@@ -14,12 +16,18 @@
 @inline nanoseconds(x::Milliseconds) = value(x) * NANOSECONDS_PER_MILLISECOND
 @inline nanoseconds(x::Microseconds) = value(x) * NANOSECONDS_PER_MICROSECOND
 @inline nanoseconds(x::Nanoseconds)  = value(x)
+@inline months(x::Months) = value(x)
+@inline months(x::Quarters) = value(x) * QUARTERS_PER_YEAR
+@inline months(x::Year) = value(x) * MONTHS_PER_YEAR
 
 for P in (:Day, :Hour, :Minute, :Second, :Millisecond, :Microsecond, :Nanosecond)
     @eval Nanoseconds(x::$P) = Nanoseconds(nanoseconds(x))
 end
 for P in (:Weeks, :Days, :Hours, :Minutes, :Seconds, :Milliseconds, :Microseconds, :Nanoseconds)
     @eval Nanoseconds(x::$P) = Nanoseconds(nanoseconds(x))
+end
+for P in (:Year, :Month, :Years, :Months)
+    @eval Months(x::$P) = Months(months(x))
 end
 
 Base.Dates.year(x::Base.Dates.Year) = x.value
