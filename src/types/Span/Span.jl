@@ -1,12 +1,12 @@
-struct Span{T} <: AbstractTimeSpan{T}
-    value::T
+struct Span <: AbstractSpan{T}
+    value::IntTime
 end
 
-@inline value(x::Span{T}) where T = x.value
+@inline value(x::Span) = x.value
 
 function Span(value::T) where T<:Union{Int16, Int32, UInt16, UInt32, UInt64}
     try
-        return Span(convert(Int64, value))    
+        return Span(convert(IntTime, value))    
     catch e
         throw(e)
     end
@@ -14,7 +14,7 @@ end
 
 function Span(value::T) where T<:Integer
     try
-        return Span(convert(Int128, value))    
+        return Span(convert(IntTime, value))    
     catch e
         throw(e)
     end
