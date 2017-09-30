@@ -8,10 +8,10 @@
      These abstract subtype relationships are used to simplify safe dispatch and provide correctness.
 =#
 
-abstract type MonthBased   <: AbstractTimePeriod{T} end
+abstract type MonthBased   <: AbstractTimePeriod end
 abstract type YearBased    <: MonthBased         end
 
-abstract type SubsecondBased  <: AbstractTimePeriod{T} end
+abstract type SubsecondBased  <: AbstractTimePeriod end
 abstract type AttosecondBased <: SubsecondBased     end
 abstract type NanosecondBased <: AttosecondBased    end
 abstract type SecondBased     <: NanosecondBased    end
@@ -26,10 +26,10 @@ abstract type DayBased        <: SecondBased        end
      With abstract subtypes, this simplifies safe dispatch and helps with correctness.
 <=#
 
-abstract type MonthBased   <: AbstractTimePeriod{T} end
+abstract type MonthBased   <: AbstractTimePeriod end
 abstract type YearBased    <: MonthBased end
 
-abstract type SubsecondBased  <: AbstractTimePeriod{T} end
+abstract type SubsecondBased  <: AbstractTimePeriod end
 abstract type AttosecondBased <: SubsecondBased     end
 abstract type NanosecondBased <: AttosecondBased    end
 abstract type SecondBased     <: NanosecondBased    end
@@ -60,7 +60,7 @@ for (B,S,V) in [
   ]
     @eval begin
         struct $V <: $B
-            value::T
+            value::Int64
         end
         @inline value(x::$V) = x.value
 
