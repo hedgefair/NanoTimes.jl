@@ -5,7 +5,7 @@ import Base: (+), (-)
 
 (-)(x::Clock, y::Span) = Clock(nanoseconds(x) - nanoseconds(y))
 
-(-)(x::Span, y::Clock) where I<:IntTimes =
+(-)(x::Span, y::Clock) =
     throw(ErrorException("Span-Clock is invalid;  write Clock-Span."))
 
 (-)(x::Clock, y::DateTime) = x - Clock(y)
