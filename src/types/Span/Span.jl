@@ -4,26 +4,17 @@ end
 
 @inline value(x::Span) = x.value
 
-function Span(value::T) where T<:Union{Int16, Int32, UInt16, UInt32, UInt64}
-    try
-        return Span(convert(IntTime, value))    
-    catch e
-        throw(e)
-    end
+struct Span <: AbstractTimeSpan
+    value::IntTime
 end
 
+@inline value(x::Span) = x.value
+
 function Span(value::T) where T<:Integer
-    try
-        return Span(convert(IntTime, value))    
-    catch e
-        throw(e)
-    end
+    val = IntTime(value)
+	return Span(val)    
 end
 
 function Span(value::T) where T<:Base.Dates.AbstractTime
-    try
-         return convert(Span, value)
-     catch e
-         throw(e)
-     end
+     return convert(Span, value)
 end
