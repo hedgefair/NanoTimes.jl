@@ -1,16 +1,16 @@
-function Base.string(x::Clock{T}) where T
+function Base.string(x::Clock)
     dt = Date(x)
     tm = Base.Dates.Time(x)
     return string(dt, "T", tm)
 end
 
-function Base.string(x::Clock{T}, suffix::Char) where T
+function Base.string(x::Clock, suffix::Char)
     dt = Date(x)
     tm = Base.Dates.Time(x)
     return string(dt, "T", tm, suffix)
 end
 
-function Base.string(x::Clock{T}, lcl2ut::Second) where T
+function Base.string(x::Clock, lcl2ut::Second)
     dt = Date(x)
     tm = Base.Dates.Time(x)
     mins = div(lcl2ut.value, SECONDS_PER_MINUTE)
@@ -20,7 +20,7 @@ end
 
 # settable subsecond precision
 
-function Base.string(x::Clock{T}, subsec_digits::Int) where T
+function Base.string(x::Clock, subsec_digits::Int)
     if signbit(subsec_digits) || subsec_digits > 9
         throw(ErrorException("Subseconds use 0..9 digits, not $(subsec_digits)"))
     end
@@ -46,12 +46,12 @@ function Base.string(x::Clock{T}, subsec_digits::Int) where T
     return string(dt, 'T', tmstr)
  end    
 
-function Base.string(x::Clock{T}, suffix::Char, subsec_digits::Int) where T
+function Base.string(x::Clock, suffix::Char, subsec_digits::Int)
     result = string(string(x, subsec_digits), suffix)
     return result
 end
     
-function Base.string(x::Clock{T}, lcl2ut::Second, subsec_digits::Int) where T
+function Base.string(x::Clock, lcl2ut::Second, subsec_digits::Int)
     mins = div(lcl2ut.value, SECONDS_PER_MINUTE)
     offset = signed_hoursmins(mins)
     result = string(string(x, subsec_digits), offset)   
