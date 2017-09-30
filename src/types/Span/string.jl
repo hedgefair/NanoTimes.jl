@@ -17,28 +17,28 @@ function Base.string(x::Span)
     subsecs = string(millis, micros, nanos)
 
     subgranular = length(subsecs) > 0
-    if scs === zero(IntTime)
+    if scs === zero(IntSpan)
         secs = subgranular ? string("00.", subsecs) : ""
     else
         secs = subgranular ? string(twodigits(scs), DEC_PT, subsecs) : twodigits(scs)
     end
 
     subgranular = length(secs) > 0
-    if mns === zero(IntTime)
+    if mns === zero(IntSpan)
         mins = subgranular ? string("00", HMS_SEP, secs) : ""
     else
         mins = subgranular ? string(twodigits(mns), HMS_SEP, secs) : twodigits(mns)
     end
 
     subgranular = length(mins) > 0
-    if hrs === zero(IntTime)
+    if hrs === zero(IntSpan)
         hours = subgranular ? string("00", HMS_SEP, mins) : ""
     else
         hours = subgranular ? string(twodigits(hrs), HMS_SEP, mins) : twodigits(hrs)
     end
 
     subgranular = length(hours) > 0
-    if dys === zero(IntTime)
+    if dys === zero(IntSpan)
         days = subgranular ? hours : ""
     else
         days = subgranular ? string(dys, DYHR_SEP, hours) : string(dys, DYHR_SEP)
