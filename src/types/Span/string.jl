@@ -1,4 +1,4 @@
-function Base.string(x::Span{T}) where T
+function Base.string(x::Span)
 
     isneg = signbit(nanoseconds(x))
     y = Span(abs(nanoseconds(x)))
@@ -11,9 +11,9 @@ function Base.string(x::Span{T}) where T
     hrs = hour(y)
     dys = day(y)
 
-    nanos  = nanosecs  === zero(T) ? "" : threedigits(nanosecs)
-    micros = microsecs === zero(T) ? "" : threedigits(microsecs)
-    millis = millisecs === zero(T) ? "" : threedigits(millisecs)
+    nanos  = nanosecs  === zero(IntSpan) ? "" : threedigits(nanosecs)
+    micros = microsecs === zero(IntSpan) ? "" : threedigits(microsecs)
+    millis = millisecs === zero(IntSpan) ? "" : threedigits(millisecs)
     subsecs = string(millis, micros, nanos)
 
     subgranular = length(subsecs) > 0
