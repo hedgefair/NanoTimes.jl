@@ -2,14 +2,10 @@ function Span(x::Base.Dates.Time)
     return Span(x.instant.value)
 end
 
-@inline Span(x::Base.Dates.Time) = Span(x)
-
 function Span(x::CompoundPeriod)
     nanosecs = sum(map(a->Nanosecond(a), x.periods))
     return Span(nanosecs.value)
 end
-
-@inline Span(x::CompoundPeriod) = Span(x)
 
 Span(x::Day)  = Span(x.value * NANOSECONDS_PER_DAY)
 Span(x::Hour) = Span(x.value * NANOSECONDS_PER_HOUR)
