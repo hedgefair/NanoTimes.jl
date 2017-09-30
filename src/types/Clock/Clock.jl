@@ -1,4 +1,4 @@
-struct Clock <: AbstractClock{T}
+struct Clock <: AbstractClock
     value::IntTime
 end
 
