@@ -17,11 +17,11 @@
 
 const NANOTIME_IS_UTM =	(
 
- if VERSION > v"0.7.0-"
+ if VERSION >= v"0.7.0-DEV.1816"
 
   const NANOTIME_IS_UTM =	
     if ((@isdefined TIMES_ARE_UMT) && TIMES_ARE_UMT) ||
-       (haskey(ENV,"TIMES_ARE_LUMT") && ENV["TIMES_ARE_UMT"])
+       (haskey(ENV,"TIMES_ARE_UMT") && ENV["TIMES_ARE_UMT"])
          NanoTimeFrame = true
     elseif ((@isdefined TIMES_ARE_LMT) && TIMES_ARE_LMT) ||
        (haskey(ENV,"TIMES_ARE_LMT") && ENV["TIMES_ARE_LMT"])
