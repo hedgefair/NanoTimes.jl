@@ -1,0 +1,20 @@
+language: julia
+os:
+  - linux
+  - osx
+julia:
+  - 0.6
+  - nightly
+notifications:
+  email: false
+git:
+  depth: 999999 # for travis
+env:
+  - CURRENT_LEAP_SECOND="2016-12-31T23:59:60Z"
+script:
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  - OPTIONS=$(julia -e 'isdefined(Base.JLOptions(), :use_compilecache) && print("--compilecache=no")')
+  - julia $OPTIONS -e 'Pkg.clone(pwd()); Pkg.build("NanoTimes"); Pkg.test("NanoTimes"; coverage=true)';
+after_success:
+  - julia -e 'cd(Pkg.dir("NanoTimes")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
+  - julia -e 'cd(Pkg.dir("NanoTimes")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
