@@ -7,14 +7,13 @@ end
 
 Base.convert(::Type{Clock}, x::Date) = Clock(x)
 
-#=
 function Clock(dtm::DateTime)
     dat = Date(dtm)
     tim = Base.Dates.Time(dtm)
     return Clock(dat, tim)
 end
-=#
-Clock(x::Base.Dates.DateTime) = Clock(Milliseconds(Base.Dates.value(x)))
+
+#Clock(x::Base.Dates.DateTime) = Clock(Milliseconds(Base.Dates.value(x)))
 
 Base.convert(::Type{Clock}, x::DateTime) = Clock(x)
 
