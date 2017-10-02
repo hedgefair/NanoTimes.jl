@@ -62,3 +62,26 @@ abstract type AbstractTimePeriod <: AbstractDuration end
 A time span is a signed succession of time periods.
 """
 abstract type AbstractTimeSpan <: AbstractDuration end
+
+"""
+    AbstracSimpleSpan
+A span of time represented by an integer multiple of
+  a time unit that is supported as a time period.
+
+"""
+abstract type AbstractSimpleSpan <: AbstractTimwSpan end
+
+"""
+    AbstracMultiSpan
+A span of time represented by more than one SimpleSpan.
+The implict (or quiesent) sum of incommensurable time units;
+this multivalued potentiality collapses uniquely when
+attached to any situated moment.
+Given a rooting date, time of day and time zone,
+any legitimate (well formed, appropriately bounded)
+MultiSpan may be added onto or subracted into the
+rooted moment.  When being applied, the MultiSpan
+melds with Moment. This adaption displaces about a
+timeline: this is experienced as temporal resituation.
+"""
+abstract type AbstractMultiSpan <: AbstractSimpleSpan end
