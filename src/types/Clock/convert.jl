@@ -13,8 +13,6 @@ function Clock(dtm::DateTime)
     return Clock(dat, tim)
 end
 
-#Clock(x::Base.Dates.DateTime) = Clock(Milliseconds(Base.Dates.value(x)))
-
 Base.convert(::Type{Clock}, x::DateTime) = Clock(x)
 
 function Clock(dat::Date, tim::Base.Dates.Time)
