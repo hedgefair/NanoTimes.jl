@@ -1,4 +1,4 @@
-#months(x::TimeSpan) = months(x)
+months(x::TimeSpan) = months(x)
 quarters(x::TimeSpan) = div(months(x), MONTHS_PER_QUARTER)
 years(x::TimeSpan) = div(months(x), MONTHS_PER_YEAR)
 decades(x::TimeSpan) = div(months(x), MONTHS_PER_DECADE)
