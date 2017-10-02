@@ -67,12 +67,12 @@ abstract type AbstractTimeSpan <: AbstractDuration end
     AbstracSimpleSpan
 A span of time represented by an integer multiple of
   a time unit that is supported as a time period.
-
+g
 """
 abstract type AbstractSimpleSpan <: AbstractTimwSpan end
 
 """
-    AbstracMultiSpan
+    AbstractMultiSpan
 A span of time represented by more than one SimpleSpan.
 The implict (or quiesent) sum of incommensurable time units;
 this multivalued potentiality collapses uniquely when
