@@ -18,3 +18,5 @@
        wall clock. Leap seconds are ingnored.
 
 <=#
+
+const NANOTIME_FRAME = 0
