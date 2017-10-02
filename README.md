@@ -4,9 +4,15 @@
 
 #### Copyright &copy;2017 by Jeffrey Sarnoff.  All rights reserved (prior to the release).
 ----------
-### dates with times&sdot;of&sdot;day and durations that understand nanoseconds
-### timestamps with settable, zero-filling subsecond precision
-#### algorithms preserve temporal relationships and local precision
+
+* dates with times&sdot;of&sdot;day and durations that understand nanoseconds
+* timestamps with settable, zero-filling subsecond precision
+* algorithms preserve temporal relationships and local precision
+
+** the current time (according to the local host)
+** UnivTime(), LocalTime() for universal mean time, local mean time
+*** is_univtime(mytime), is_localtime(mytime)
+
 
 - Times are moments of time: your clock and calendar
 - Spans are measures in time: +(3 days), -(5 microseconds), +(1 week 2 days)
