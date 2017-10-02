@@ -69,7 +69,7 @@ A span of time represented by an integer multiple of
   a time unit that is supported as a time period.
 g
 """
-abstract type AbstractSimpleSpan <: AbstractTimwSpan end
+abstract type AbstractSimpleSpan <: AbstractTimeSpan end
 
 """
     AbstractMultiSpan
