@@ -1,14 +1,13 @@
-import Base: (+), (-)
+import Base: +, -, <, <=, ==, isequal, isless
 
 function (-)(x::Clock, y::Clock)
     nanosecs = nanoseconds(x) - nanoseconds(y)
     return Span(nanosecs)
 end
 
-
-for P in [:Nanosecond, :Microsecond, :Millisecond, 
+for P in [:Nanosecond, :Microsecond, :Millisecond,
           :Second, :Minute, :Hour, :Day, :Week,
-		  :Nanoseconds, :Microseconds, :Milliseconds, 
+    		  :Nanoseconds, :Microseconds, :Milliseconds,
           :Seconds, :Minutes, :Hours]
     @eval begin
         (+)(x::Clock, p::$P) = Clock(nanoseconds(x) + nanoseconds(p))

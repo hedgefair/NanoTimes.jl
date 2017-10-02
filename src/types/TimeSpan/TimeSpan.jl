@@ -1,10 +1,11 @@
 struct TimeSpan <: AbstractTimeSpan
-    nanos::IntSpan
-    months::IntSpan
+    nanosecs::IntSpan
+	yearmonths::IntSpan
 end
+@inline nanoseconds(x::TimeSpan) = x.nanosecs
+@inline months(x::TimeSpan) = x.yearmonths
 
-@inline nanoseconds(x::TimeSpan) = x.nanos
-@inline months(x::TimeSpan) = x.months
+TimeSpan(x::TimeSpan) = x
 
 Base.zero(::Type{TimeSpan}) = TimeSpan(zero(IntSpan), zero(IntSpan))
 
@@ -20,7 +21,7 @@ function TimeSpan(x::Base.Dates.CompoundPeriod)
 	   result = result + p
 	end
 	return result
-end	
+end
 
 Base.:(-)(x::TimeSpan) =
     TimeSpan(-nanoseconds(x), -months(x))
@@ -32,7 +33,7 @@ Base.abs(x::TimeSpan) =
 	else
 	    x
 	end
-	
+
 Base.:(+)(x::TimeSpan, y::TimeSpan) =
     TimeSpan(nanoseconds(x)+nanoseconds(y), months(x)+months(y))
 Base.:(-)(x::TimeSpan, y::TimeSpan) =
@@ -86,3 +87,45 @@ Base.:(*)(x::TimeSpan, y::I) where I<:Union{Int64, Int32} =
     TimeSpan(nanoseconds(x) * y, months(x) * y)
 Base.:(*)(x::I, y::TimeSpan) where I<:Union{Int64, Int32} =
     TimeSpan(x * nanoseconds(y), x * months(y))
+
+
+Base.:(+)(x::Span, y::TimeSpan) = TimeSpan(x) + y
+Base.:(+)(x::TimeSpan, y::Span) = x + TimeSpan(y)
+Base.:(-)(x::Span, y::TimeSpan) = TimeSpan(x) - y
+Base.:(-)(x::TimeSpan, y::Span) = x - TimeSpan(y)
+
+Base.:(+)(x::Clock, y::Span) = x + TimeSpan(y)
+Base.:(+)(x::Span, y::Clock) = y + TimeSpan(x)
+Base.:(-)(x::Clock, y::Span) = x - TimeSpan(y)
+Base.:(-)(x::Span, y::Clock) =
+    throw(ErrorException("`Span - Clock` is invalid -- use `Clock - Span`."))
+
+Base.:(+)(x::UnivTime, y::Span) = x + TimeSpan(y)
+Base.:(+)(x::Span, y::UnivTime) = y + TimeSpan(x)
+Base.:(-)(x::UnivTime, y::Span) = x - TimeSpan(y)
+Base.:(-)(x::Span, y::UnivTime) =
+    throw(ErrorException("`Span - Clock` is invalid -- use `Clock - Span`."))
+
+Base.:(+)(x::LocalTime, y::Span) = x + TimeSpan(y)
+Base.:(+)(x::Span, y::LocalTime) = y + TimeSpan(x)
+Base.:(-)(x::LocalTime, y::Span) = x - TimeSpan(y)
+Base.:(-)(x::Span, y::LocalTime) =
+    throw(ErrorException("`Span - Clock` is invalid -- use `Clock - Span`."))
+
+Base.:(+)(x::Clock, y::TimeSpan) =
+   (Date(x) + Years(y) + Months(y)) + (Time24(x) + Nanoseconds(y))
+Base.:(+)(x::TimeSpan, y::Clock) = y + x
+Base.:(-)(x::Clock, y::TimeSpan) =
+   (Date(x) - Years(y) - Months(y)) + (Time24(x) - Nanoseconds(y))
+
+Base.:(+)(x::UnivTime, y::TimeSpan) =
+   (Date(x) + Years(y) + Months(y)) + (Time24(x) + Nanoseconds(y))
+Base.:(+)(x::TimeSpan, y::UnivTime) = y + x
+Base.:(-)(x::UnivTime, y::TimeSpan) =
+   (Date(x) - Years(y) - Months(y)) + (Time24(x) - Nanoseconds(y))
+
+Base.:(+)(x::LocalTime, y::TimeSpan) =
+   (Date(x) + Years(y) + Months(y)) + (Time24(x) + Nanoseconds(y))
+Base.:(+)(x::TimeSpan, y::LocalTime) = y + x
+Base.:(-)(x::LocalTime, y::TimeSpan) =
+   (Date(x) - Years(y) - Months(y)) + (Time24(x) - Nanoseconds(y))

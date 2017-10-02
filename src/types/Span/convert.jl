@@ -7,6 +7,7 @@ function Span(x::CompoundPeriod)
     return Span(nanosecs.value)
 end
 
+Span(x::Week)  = Span(x.value * NANOSECONDS_PER_WEEK)
 Span(x::Day)  = Span(x.value * NANOSECONDS_PER_DAY)
 Span(x::Hour) = Span(x.value * NANOSECONDS_PER_HOUR)
 Span(x::Minute) = Span(x.value * NANOSECONDS_PER_MINUTE)

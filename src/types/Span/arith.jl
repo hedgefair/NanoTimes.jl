@@ -43,7 +43,7 @@ end
 (Base.mod)(x::Span, y::I) where I<:Union{Int32, Int64} = Span( mod(nanoseconds(x), y) )
 (Base.rem)(x::Span, y::I) where I<:Union{Int32, Int64} = Span( rem(nanoseconds(x), y) )
 (Base.divrem)(x::Span, y::I) where I<:Union{Int32, Int64} = div(x,y), rem(x,y)
-(Base.fldmod)(x::Span, y::I) where I<:Union{Int32, Int64} = fld
+(Base.fldmod)(x::Span, y::I) where I<:Union{Int32, Int64} = fld(x,y), mod(x,y)
 
 (Base.div)(x::Span, y::Span) = div(nanoseconds(x), nanoseconds(y))
 (Base.fld)(x::Span, y::Span) = fld(nanoseconds(x), nanoseconds(y))
@@ -52,6 +52,7 @@ end
 (Base.rem)(x::Span, y::Span) = rem(nanoseconds(x), nanoseconds(y))
 (Base.divrem)(x::Span, y::Span) = div(x,y), rem(x,y)
 (Base.fldmod)(x::Span, y::Span) = fld(x,y), mod(x,y)
+
 
 for P in [:Nanosecond, :Microsecond, :Millisecond, 
           :Second, :Minute, :Hour, :Day, :Week,

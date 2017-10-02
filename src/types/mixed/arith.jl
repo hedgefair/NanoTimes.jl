@@ -1,12 +1,5 @@
 import Base: (+), (-)
 
-(+)(x::Clock, y::Span) = Clock(nanoseconds(x) + nanoseconds(y))
-(+)(x::Span, y::Clock) = Clock(nanoseconds(x) + nanoseconds(y))
-
-(-)(x::Clock, y::Span) = Clock(nanoseconds(x) - nanoseconds(y))
-
-(-)(x::Span, y::Clock) =
-    throw(ErrorException("Span-Clock is invalid;  write Clock-Span."))
 
 (-)(x::Clock, y::DateTime) = x - Clock(y)
 (-)(x::DateTime, y::Clock) = Clock(x) - y

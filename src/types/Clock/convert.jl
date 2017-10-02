@@ -5,11 +5,18 @@ function Clock(dt::Date)
     return Clock(nanosec)
 end
 
+Base.convert(::Type{Clock}, x::Date) = Clock(x)
+
+#=
 function Clock(dtm::DateTime)
     dat = Date(dtm)
     tim = Base.Dates.Time(dtm)
     return Clock(dat, tim)
 end
+=#
+Clock(x::Base.Dates.DateTime) = Clock(Milliseconds(Base.Dates.value(x)))
+
+Base.convert(::Type{Clock}, x::DateTime) = Clock(x)
 
 function Clock(dat::Date, tim::Base.Dates.Time)
     rata = date2rata(dat)
@@ -19,9 +26,11 @@ function Clock(dat::Date, tim::Base.Dates.Time)
     return Clock(nanosec)
 end
 
+Base.convert(::Type{Clock}, x::Date, t::Base.Dates.Time) = Clock(x, t)
+
 Clock(str::String) = parse(Clock, str)
 
-function Clock(year::I=I(year(now())), month::I=one(I), day::I=one(I),
+function Clock(year::I, month::I=one(I), day::I=one(I),
                hour::I=zero(I), minute::I=zero(I), second::I=zero(I),
                  millisecond::I=zero(I), microsecond::I=zero(I), nanosecond::I=zero(I)) where I<:IntSpan
     dnanosec = nanosecond
@@ -32,7 +41,8 @@ function Clock(year::I=I(year(now())), month::I=one(I), day::I=one(I),
     dnanosec += hour * NANOSECONDS_PER_HOUR
     return Clock(Date(year, month, day)) + Span(dnanosec)
 end
-     
+
+
 function Clock(x::Base.Dates.Time)
     error("use Span(x::Base.Dates.Time), not Clock(x::Base.Dates.Time)")
 end
