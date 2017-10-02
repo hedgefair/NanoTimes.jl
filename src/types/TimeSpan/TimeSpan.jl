@@ -1,9 +1,10 @@
 struct TimeSpan <: AbstractTimeSpan
-    nanosecs::IntSpan
-	yearmonths::IntSpan
+    signednanos::IntSpan
+    signedmonths::IntSpan
 end
-@inline nanoseconds(x::TimeSpan) = x.nanosecs
-@inline months(x::TimeSpan) = x.yearmonths
+@inline value(x::TimeSpan) = (x.signednanos, x.signedmonths)
+@inline nanoseconds(x::TimeSpan) = x.signednanos
+@inline months(x::TimeSpan) = x.signedmonths
 
 TimeSpan(x::TimeSpan) = x
 
