@@ -1,7 +1,18 @@
-#=>
+
     This package has a few configurations available.
-	
-	To use universal mean times only
+
+    universal mean time (UTM)
+       timekeeping that follows the practice  scientific consensus timekeeping [almost] anchored on the Greenwich Meridan
+
+(leapsecond unaware of leapseconds)
+lazy mean solar time at the 
+       time() is as now(Base.Dates.UTC), shown as UT
+       date() is as Date(time()), with respect to UT
+       timeofday() is clock time at the Greenwhich meridian
+
+
+	To use universal mean times directly
+UMT   
 	   NANOTIMES_ARE_UMT = true           <=== the default
 	
 	To use local mean times only
