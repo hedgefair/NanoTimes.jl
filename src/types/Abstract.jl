@@ -13,10 +13,11 @@
 import Base.Dates.AbstractTime
 
 """
-     TemporalAbstraction
+     Temporal
+
 This is our root abstraction for matters of time.
 """
-abstract type TemporalAbstraction <: Base.Dates.AbstractTime end
+abstract type Temporal <: Base.Dates.AbstractTime end
 
 """
     AbstractMoment
@@ -24,7 +25,7 @@ A moment is granular position along the continuum of time.
 You can think of moments as fat points in time.  Moments that
 cover a second are "thinner" than moments covering an hour.
 """
-abstract type AbstractMoment   <: TemporalAbstraction end  # fat points in time
+abstract type AbstractMoment   <: Temporal end  # fat points in time
 
 """
     AbstractClock
