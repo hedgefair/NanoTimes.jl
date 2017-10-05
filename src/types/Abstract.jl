@@ -50,7 +50,7 @@ abstract type AbstractTimeOfDay  <: AbstractClock end
 A duration is an extent that collects successive moments of time.
 You can think of durations as steps through time.
 """
-abstract type AbstractDuration <: TemporalAbstraction end
+abstract type AbstractDuration <: Temporal end
 
 """
     AbstractTimePeriod
