@@ -21,6 +21,7 @@ abstract type Temporal <: Base.Dates.AbstractTime end
 
 """
     AbstractMoment
+
 A moment is granular position along the continuum of time.
 You can think of moments as fat points in time.  Moments that
 cover a second are "thinner" than moments covering an hour.
