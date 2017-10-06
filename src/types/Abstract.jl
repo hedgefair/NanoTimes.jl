@@ -17,19 +17,28 @@ import Base.Dates.AbstractTime
 
 This is our root abstraction for matters of time.
 """
-
-abstract type INSTANT end
-"""
-    AbstractMoment
-
-A moment is granular position along the continuum of time.
-You can think of moments as the spread extended fat points in time.  Moments that
-cover a second are "thinner" than moments covering an hour.
-"""
-abstract type AbstractMoment   <: Temporal end
+abstract type Temporal <: AbstractTime end
 
 """
-    AbstractClock
+     Instant
+
+
+( time as if reality blinks on and off )
+"""
+abstract type Instant <: Temporal end
+
+"""
+    Moment
+
+
+( time as if concresence is experience )
+"""
+abstract type Moment   <: Temporal end
+
+
+
+"""
+    Clock
 
 A clock tracks date and time of day.
 """
