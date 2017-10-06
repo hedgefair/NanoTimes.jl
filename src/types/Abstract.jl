@@ -17,16 +17,9 @@ import Base.Dates.AbstractTime
 
 This is our root abstraction for matters of time.
 """
-abstract type Tempohttps://github.com/invenia/RingArrays.jl/blob/master/src/RingArrays.jlral <: Base.Dates.AbstractTime end
 
+abstract type INSTANT end
 """
-  Instants: substructual connectedness     
-
-For those who prefer their present to obtain and ten to unfold,
-instants are helpful -- and at least locally, well-structured.
-
-"""
-
     AbstractMoment
 
 A moment is granular position along the continuum of time.
@@ -58,6 +51,8 @@ abstract type AbstractTimeOfDay  <: AbstractClock end
 
 """
     AbstractDuration
+
+
 A duration is an extent that collects successive moments of time.
 You can think of durations as steps through time.
 """
@@ -65,26 +60,33 @@ abstract type AbstractDuration <: Temporal end
 
 """
     AbstractTimePeriod
+
+
 A period is a granular duration (e.g. Year, Day, Second).
 """
 abstract type AbstractTimePeriod <: AbstractDuration end
 
 """
     AbstractTimeSpan
+
+
 A time span is a signed succession of time periods.
 """
 abstract type AbstractTimeSpan <: AbstractDuration end
 
 """
     AbstracSimpleSpan
+
+
 A span of time represented by an integer multiple of
   a time unit that is supported as a time period.
-g
 """
 abstract type AbstractSimpleSpan <: AbstractTimeSpan end
 
 """
     AbstractMultiSpan
+
+
 A span of time represented by more than one SimpleSpan.
 The implict (or quiesent) sum of incommensurable time units;
 this multivalued potentiality collapses uniquely when
