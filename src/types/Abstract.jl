@@ -17,32 +17,42 @@ import Base.Dates.AbstractTime
 
 This is our root abstraction for matters of time.
 """
-abstract type Temporal <: Base.Dates.AbstractTime end
+abstract type Tempohttps://github.com/invenia/RingArrays.jl/blob/master/src/RingArrays.jlral <: Base.Dates.AbstractTime end
 
 """
+  Instants: substructual connectedness     
+
+For those who prefer their present to obtain and ten to unfold,
+instants are helpful -- and at least locally, well-structured.
+
+"""
+
     AbstractMoment
 
 A moment is granular position along the continuum of time.
-You can think of moments as fat points in time.  Moments that
+You can think of moments as the spread extended fat points in time.  Moments that
 cover a second are "thinner" than moments covering an hour.
 """
-abstract type AbstractMoment   <: Temporal end  # fat points in time
+abstract type AbstractMoment   <: Temporal end
 
 """
     AbstractClock
+
 A clock tracks date and time of day.
 """
 abstract type AbstractClock      <: AbstractMoment end
 
 """
     AbstractDate
+
 A date tracks calendric dates.
 """
 abstract type AbstractDate       <: AbstractClock end
 
 """
     AbstractTimeOfDay
-A timeofday tracks time within a date.
+
+A timeofday tracks time within a date.s
 """
 abstract type AbstractTimeOfDay  <: AbstractClock end
 
